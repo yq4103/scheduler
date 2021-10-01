@@ -8,6 +8,8 @@ import DayList from "./DayList";
 
 import Appointment from "components/Appointment";
 
+import { getAppointmentsForDay } from "helpers/selectors";
+
 // const appointments = [
 //   {
 //     id: 1,
@@ -44,8 +46,6 @@ import Appointment from "components/Appointment";
 // ];
 
 export default function Application(props) {
-  const parsedAppointment = appointments.map(appointment  => 
-    <Appointment  key={appointment.id} {...appointment}/>);
   //combine the state for day, days, and appointments into a state into a single object
   const [state, setState] = useState({
     day: "Monday",
@@ -53,8 +53,10 @@ export default function Application(props) {
     appointments: {}
   });
 
-  const dailyAppointments = [];
-  
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const parsedAppointment = dailyAppointments.map(appointment  => 
+    <Appointment  key={appointment.id} {...appointment}/>);
+
   //function which updates the state with the new day
   const setDay = day => setState({ ...state, day });
   const setDays = (days) => {
@@ -63,9 +65,15 @@ export default function Application(props) {
 
   // Hardcoded days array removed so as to fetch axios data instead
   useEffect(() => {
-    axios.get("/api/days").then(response=> {
-      setDays(response.data)
+    Promise.all([
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
+    ]).then((all) => {
+      setState(prev => ({...prev, days:all[0].data, appointments:all[1].data, interviewers:all[2].data }))
+      console.log(all)
     })
+    
   }, []);
   return (
     <main className="layout">
