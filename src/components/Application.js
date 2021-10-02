@@ -8,7 +8,7 @@ import DayList from "./DayList";
 
 import Appointment from "components/Appointment";
 
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
 // const appointments = [
 //   {
@@ -54,8 +54,19 @@ export default function Application(props) {
   });
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
-  const parsedAppointment = dailyAppointments.map(appointment  => 
-    <Appointment  key={appointment.id} {...appointment}/>);
+  const schedule = dailyAppointments.map((appointment)  => {
+    const interview = getInterview(state, appointment.interview);
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    );
+  });
+
+    
 
   //function which updates the state with the new day
   const setDay = day => setState({ ...state, day });
@@ -94,7 +105,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {parsedAppointment}
+        {schedule}
         <Appointment key="last" time="7pm" />
       </section>
     </main>
