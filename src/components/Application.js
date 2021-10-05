@@ -10,41 +10,6 @@ import Appointment from "components/Appointment";
 
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   {
-//     id: 3,
-//     time: "2pm",
-//   },
-//   {
-//     id:4,
-//     time: "3pm",
-//     interview: {
-//       student: "Zoey Qin",
-//       interviewer: {
-//         id: 6,
-//         name: "林巾帼",
-//         avatar: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/760.png",
-//       }
-//     }
-//   }
-// ];
-
 export default function Application(props) {
   //combine the state for day, days, and appointments into a state into a single object
   const [state, setState] = useState({
@@ -64,11 +29,10 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     );
   });
-
-    
 
   //function which updates the state with the new day
   const setDay = day => setState({ ...state, day });
@@ -88,6 +52,37 @@ export default function Application(props) {
     })
     
   }, []);
+
+  function bookInterview(id, interview) {
+    const appointmentToSave = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    console.log(id, interview);
+    return new Promise((resolve, reject) => {
+      //updating the database
+      axios.put(`/api/appointments/${id}`, appointmentToSave)
+      .then(() => {
+        //taking the current state, getting all the appointments, and adding the appointment we just saved to the database
+        const appointments = {
+          ...state.appointments,
+          [id]: appointmentToSave
+        };
+        //take the appointments, saving the interview to the current state, updating the state of appointments
+        setState({
+          ...state,
+          appointments
+        });
+        resolve ('success')
+      })
+      .catch((err) => {
+        reject (err)
+      })
+    }) 
+    
+  }
+
   return (
     <main className="layout">
       <section className="sidebar">

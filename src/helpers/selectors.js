@@ -1,15 +1,13 @@
 export function getAppointmentsForDay(state, day) {
-  //empty resut array
+  //empty result array
   const result = [];
-  //the find method returns the value of the first element in the array that satisfies the condition
-  //to find within the days array the object with a name key whose value equals the day specified
-  const filteredDay = state.days.find(apptDay => apptDay.name === day)
-  //If there are no appointments on the given day, our days data will be empty, return an empty array
-  if (!filteredDay) {
+  const filteredDay = state.days.filter(filDay => filDay.name === day)
+
+  if (!filteredDay[0]) {
     return result;
   }
-  //the value of the appointment key of the days object is an array of appointments ids, iterate through the array and push the corresponding appointments object to the result array 
-  for (const apptId of filteredDay.appointments) {
+
+  for (const apptId of filteredDay[0].appointments) {
     result.push(state.appointments[apptId]);
   }
 
@@ -27,18 +25,16 @@ export function getInterview(state, interview) {
 }
 
 export function getInterviewersForDay(state, day) {
-  //empty resut array
+  //empty result array
   const result = [];
-  //the find method returns the value of the first element in the array that satisfies the condition
-  //to find within the days array the object with a name key whose value equals the day specified
-  const filteredDay = state.days.find(apptDay => apptDay.name === day)
-  //If there are no appointments on the given day, our days data will be empty, return an empty array
-  if (!filteredDay) {
+  const filteredDay = state.days.filter(filDay => filDay.name === day)
+
+  if (!filteredDay[0]) {
     return result;
   }
-  //the value of the appointment key of the days object is an array of appointments ids, iterate through the array and push the corresponding appointments object to the result array 
-  for (const apptId of filteredDay.appointments) {
-    result.push(state.appointments[apptId]);
+
+  for (const apptId of filteredDay[0].interviewers) {
+    result.push(state.interviewers[apptId]);
   }
 
   return result;
