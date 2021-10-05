@@ -52,7 +52,7 @@ export default function Appointment(props) {
     .catch(error => transition(ERROR_DELETE, true));
   }
 
-  //edit an interview
+  //edit an interview appointment
   const editAppointment = () => {
     transition(EDIT);
   };
