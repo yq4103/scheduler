@@ -30,6 +30,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
@@ -79,8 +80,36 @@ export default function Application(props) {
       .catch((err) => {
         reject (err)
       })
-    }) 
-    
+    })
+  }
+
+  function cancelInterview(id) {
+    const appointmentToCancel = {
+      ...state.appointments[id],
+      interview: null
+    };
+
+    console.log(id);
+    return new Promise((resolve, reject) => {
+      //updating the database
+      axios.delete(`/api/appointments/${id}`, appointmentToCancel)
+      .then(() => {
+        //taking the current state, getting all the appointments, and removing the appointment from the database
+        const appointments = {
+          ...state.appointments,
+          [id]: appointmentToCancel
+        };
+        //take the appointments, saving the interview to the current state, updating the state of appointments
+        setState({
+          ...state,
+          appointments
+        });
+        resolve ('success')
+      })
+      .catch((err) => {
+        reject (err)
+      })
+    })
   }
 
   return (
