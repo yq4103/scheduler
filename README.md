@@ -4,11 +4,11 @@ The Interview Scheduler is a React application that allows users to book and can
 
 ## Final Product
 
-!["screenshot of adding an appointment"](#)
+!["screenshot of adding an appointment"](https://github.com/yq4103/scheduler/blob/master/docs/Screen%20Shot%202021-10-06%20at%2010.11.04%20PM.png?raw=true)
 
-!["screenshot of saving an appointment"](#)
+!["screenshot of saving an appointment"](https://github.com/yq4103/scheduler/blob/master/docs/Screen%20Shot%202021-10-06%20at%2010.11.42%20PM.png?raw=true)
 
-!["screenshot of deleting an appointment"](#)
+!["screenshot of deleting an appointment"](https://github.com/yq4103/scheduler/blob/master/docs/Screen%20Shot%202021-10-06%20at%2010.12.21%20PM.png?raw=true)
 
 ## Dependencies
 
