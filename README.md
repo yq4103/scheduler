@@ -1,5 +1,40 @@
 # Interview Scheduler
 
+The Interview Scheduler is a React application that allows users to book and cancel interviews. We combine a concise API with a WebSocket server to build a realtime experience.
+
+## Final Product
+
+!["screenshot of adding an appointment"](#)
+
+!["screenshot of saving an appointment"](#)
+
+!["screenshot of deleting an appointment"](#)
+
+## Dependencies
+
+- "axios": "^0.21.4",
+- "classnames": "^2.3.1",
+- "normalize.css": "^8.0.1",
+- "react": "^16.9.0",
+- "react-dom": "^16.9.0",
+- "react-scripts": "3.0.0"
+
+## devDependencies
+
+- "@babel/core": "^7.4.3",
+- "@storybook/addon-actions": "^5.0.10",
+- "@storybook/addon-backgrounds": "^5.0.10",
+- "@storybook/addon-links": "^5.0.10",
+- "@storybook/addons": "^5.0.10",
+- "@storybook/react": "^5.0.10",
+- "@testing-library/jest-dom": "^4.0.0",
+- "@testing-library/react": "^8.0.7",
+- "@testing-library/react-hooks": "^7.0.2",
+- "babel-loader": "^8.0.5",
+- "node-sass": "^4.14.0",
+- "react-hooks": "^1.0.1",
+- "react-test-renderer": "^16.14.0"
+
 ## Setup
 
 Install dependencies with `npm install`.
