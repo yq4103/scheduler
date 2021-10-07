@@ -11,9 +11,6 @@ export default function useApplicationData() {
 
   //function which updates the state with the new day
   const setDay = (day) => setState({ ...state, day });
-  const setDays = (days) => {
-    setState((prev) => ({ ...prev, days }));
-  };
 
   function updateSpots(days, apptId, appointments) {
     const findDay = (day) => day.appointments.includes(apptId);
