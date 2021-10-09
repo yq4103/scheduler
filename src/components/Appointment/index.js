@@ -33,7 +33,7 @@ export default function Appointment(props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       //error handling when axios rejects the Promise
-      .catch((error) => transition(ERROR_SAVE));
+      .catch((error) => transition(ERROR_SAVE, true));
   }
 
   //add a confirmation message when a user tries to delete an interview appointment
