@@ -1,6 +1,5 @@
 import React from "react";
 import "components/Appointment/styles.scss";
-import classnames from "classnames";
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -32,7 +31,6 @@ export default function Appointment(props) {
     props
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      //error handling when axios rejects the Promise
       .catch((error) => transition(ERROR_SAVE, true));
   }
 
@@ -50,7 +48,6 @@ export default function Appointment(props) {
       .then(() => {
         transition(EMPTY);
       })
-      //error handling when axios rejects the Promise
       .catch((error) => transition(ERROR_DELETE, true));
   }
 

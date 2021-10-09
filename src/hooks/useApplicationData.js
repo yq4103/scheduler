@@ -2,27 +2,25 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function useApplicationData() {
-  //combine the state for day, days, and appointments into a state into a single object
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {},
   });
 
-  //function which updates the state with the new day
   const setDay = (day) => setState({ ...state, day });
 
   function updateSpots(days, apptId, appointments) {
     const findDay = (day) => day.appointments.includes(apptId);
-    const dayObj = days.find(findDay);
-    let counterNulls = 0;
-    dayObj.appointments.forEach((id) => {
+    const singleDay = days.find(findDay);
+    let nullAppointments = 0;
+    singleDay.appointments.forEach((id) => {
       if (appointments[id].interview === null) {
-        counterNulls++;
+        nullAppointments++;
       }
     });
-    dayObj.spots = counterNulls;
-    return dayObj;
+    singleDay.spots = nullAppointments;
+    return singleDay;
   }
 
   function bookInterview(id, interview) {
@@ -31,19 +29,18 @@ export default function useApplicationData() {
       interview: { ...interview },
     };
 
-    console.log(id, interview);
     return new Promise((resolve, reject) => {
-      //updating the database
+      //taking the current state, getting all the appointments, and adding the appointment we just saved to the database, updating local state to match the server
+      //take the appointments object, saving the interview to the current state, updating the state of appointments
       axios
         .put(`/api/appointments/${id}`, appointmentToSave)
+
         .then(() => {
-          //taking the current state, getting all the appointments, and adding the appointment we just saved to the database, updating local state to match the server
-          //this is the appointments object which represents the local state
           const appointments = {
             ...state.appointments,
             [id]: appointmentToSave,
           };
-          //take the appointments object, saving the interview to the current state, updating the state of appointments
+
           setState({
             ...state,
             appointments,
@@ -51,7 +48,6 @@ export default function useApplicationData() {
 
           const newDay = updateSpots(state.days, id, appointments);
 
-          // a representation of what we want the state to be
           const daysArray = [...state.days];
 
           daysArray[newDay.id - 1] = newDay;
@@ -63,6 +59,7 @@ export default function useApplicationData() {
 
           resolve("success");
         })
+
         .catch((err) => {
           reject(err);
         });
@@ -75,18 +72,18 @@ export default function useApplicationData() {
       interview: null,
     };
 
-    console.log(id);
     return new Promise((resolve, reject) => {
-      //updating the database
+      //taking the current state, getting all the appointments, and removing the appointment from the database
+      //take the appointments, saving the interview to the current state, updating the state of appointments
       axios
         .delete(`/api/appointments/${id}`, appointmentToCancel)
+
         .then(() => {
-          //taking the current state, getting all the appointments, and removing the appointment from the database
           const appointments = {
             ...state.appointments,
             [id]: appointmentToCancel,
           };
-          //take the appointments, saving the interview to the current state, updating the state of appointments
+
           setState({
             ...state,
             appointments,
@@ -94,7 +91,6 @@ export default function useApplicationData() {
 
           const newDay = updateSpots(state.days, id, appointments);
 
-          // a representation of what we want the state to be
           const daysArray = [...state.days];
 
           daysArray[newDay.id - 1] = newDay;
@@ -106,13 +102,13 @@ export default function useApplicationData() {
 
           resolve("success");
         })
+
         .catch((err) => {
           reject(err);
         });
     });
   }
 
-  // Hardcoded days array removed so as to fetch axios data instead
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
