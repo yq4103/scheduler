@@ -1,6 +1,6 @@
 # Interview Scheduler
 
-The Interview Scheduler is a React application that allows users to book and cancel interviews. The Interview Scheduler was built in ReactJs with Storybook, Cypress, and Jest to deliver a realtime experience.
+The Interview Scheduler is a React application that allows users to book and cancel interviews. The Interview Scheduler was built in ReactJs with Storybook, Cypress, Axios and Jest to deliver a realtime experience.
 
 ## Final Product
 
